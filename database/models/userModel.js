@@ -7,49 +7,56 @@ const UserSchema = {
     allowNull: false, // not null
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+  },
+  userName: {
+    field: 'user_name',
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  imagen: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   email: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING,
     unique: true,
   },
   password: {
-    allowNull: false,
-    type: DataTypes.STRING
+    allowNull: true,
+    type: DataTypes.STRING,
   },
   recoveryToken: {
     allowNull: true,
     type: DataTypes.STRING,
-    field: 'recovery_token'
+    field: 'recovery_token',
   },
   role: {
     allowNull: false,
     type: DataTypes.STRING,
-    defaultValue: 'public'
+    defaultValue: 'public',
   },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
     field: 'create_at',
-    defaultValue: Sequelize.NOW
-  }
-}
+    defaultValue: Sequelize.NOW,
+  },
+};
 
 class User extends Model {
-  static associate(models) {
-    // associations can be defined here
-  }
+  static associate(models) {}
 
   static config(sequelize) {
     return {
       sequelize,
       tableName: USER_TABLE,
       modelName: 'User',
-      timestamps: false
-    }
+      timestamps: false,
+    };
   }
 }
 
-
-module.exports = { USER_TABLE, UserSchema, User }
+module.exports = { USER_TABLE, UserSchema, User };
