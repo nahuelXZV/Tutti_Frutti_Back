@@ -15,21 +15,21 @@ module.exports = {
     await queryInterface.createTable(USER_TABLE, UserSchema);
     await queryInterface.createTable(CATEGORIA_TABLE, CategoriaSchema);
     await queryInterface.createTable(JUEGO_TABLE, JuegoSchema);
-    await queryInterface.createTable(PARTICIPA_TABLE, ParticipaSchema);
     await queryInterface.createTable(PARTIDA_TABLE, PartidaSchema);
+    await queryInterface.createTable(PARTICIPA_TABLE, ParticipaSchema);
     await queryInterface.createTable(RESPUESTA_TABLE, RespuestaSchema);
     await queryInterface.createTable(CATEGORIA_JUEGO_TABLE, Categoria_juegoSchema);
     // Add others migrations here
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable(RESPUESTA_TABLE);
+    await queryInterface.dropTable(CATEGORIA_JUEGO_TABLE);
+    await queryInterface.dropTable(PARTIDA_TABLE);
+    await queryInterface.dropTable(PARTICIPA_TABLE);
     await queryInterface.dropTable(USER_TABLE);
     await queryInterface.dropTable(CATEGORIA_TABLE);
     await queryInterface.dropTable(JUEGO_TABLE);
-    await queryInterface.dropTable(PARTICIPA_TABLE);
-    await queryInterface.dropTable(PARTIDA_TABLE);
-    await queryInterface.dropTable(RESPUESTA_TABLE);
-    await queryInterface.dropTable(CATEGORIA_JUEGO_TABLE);
     // Add others migrations here
   }
 };

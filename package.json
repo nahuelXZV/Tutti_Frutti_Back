@@ -1,7 +1,7 @@
 {
-  "name": "template_express",
+  "name": "tutti_frutti",
   "version": "1.0.0",
-  "description": "Plantilla para hacer una API REST con NodeJS",
+  "description": "Backend for the tutti frutti game",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",

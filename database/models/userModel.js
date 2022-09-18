@@ -47,7 +47,24 @@ const UserSchema = {
 };
 
 class User extends Model {
-  static associate(models) {}
+  static associate(models) {
+
+    // model User belongsToMany model Partida
+    this.belongsToMany(models.Juego, {
+      as: 'juegos',
+      through: models.Participa,
+      foreignKey: 'userId',
+      otherKey: 'juegoId',
+    });
+
+    // model User belongsToMany model Partida
+    this.belongsToMany(models.Partida, {
+      as: 'partidas',
+      through: models.Partida,
+      foreignKey: 'userId',
+      otherKey: 'partidaId',
+    });
+  }
 
   static config(sequelize) {
     return {

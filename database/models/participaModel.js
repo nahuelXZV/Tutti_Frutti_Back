@@ -1,4 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { JUEGO_TABLE } = require('./juegoModel');
+const { USER_TABLE } = require('./userModel');
 
 const PARTICIPA_TABLE = 'participa';
 
@@ -9,21 +11,33 @@ const ParticipaSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
-  idUser: {
-    allowNull: false,
-    type: DataTypes.INTEGER,
-    field: 'id_user',
-  },
-  idJuego: {
-    allowNull: false,
-    type: DataTypes.INTEGER,
-    field: 'id_juego',
-  },
   puntosTotal: {
     allowNull: false,
     type: DataTypes.INTEGER,
     field: 'puntos_total',
     defaultValue: 0,
+  },
+  userId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field: 'user_id',
+    references: {
+      model: USER_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
+  juegoId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field: 'juego_id',
+    references: {
+      model: JUEGO_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   createdAt: {
     allowNull: false,

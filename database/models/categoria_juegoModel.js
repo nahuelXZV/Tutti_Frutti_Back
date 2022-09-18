@@ -1,4 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { JUEGO_TABLE } = require('./juegoModel');
+const { CATEGORIA_TABLE } = require('./categoriaModel');
 
 const CATEGORIA_JUEGO_TABLE = 'categoria_juego';
 
@@ -9,23 +11,28 @@ const Categoria_juegoSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
-  CategoriaId: {
+
+  categoriaId: {
     allowNull: false,
     type: DataTypes.INTEGER,
     field: 'categoria_id',
     references: {
-      model: 'categoria',
+      model: CATEGORIA_TABLE,
       key: 'id',
     },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
-  JuegoId: {
+  juegoId: {
     allowNull: false,
     type: DataTypes.INTEGER,
     field: 'juego_id',
     references: {
-      model: 'juego',
+      model: JUEGO_TABLE,
       key: 'id',
     },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   createdAt: {
     allowNull: false,

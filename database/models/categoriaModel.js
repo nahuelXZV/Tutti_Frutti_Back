@@ -24,9 +24,19 @@ const CategoriaSchema = {
 class Categoria extends Model {
   static associate(models) {
     // associations can be defined here
-    models.Categoria.belongsToMany(models.Juego, {
-      through: models.Categoria_Juego,
-      as: 'juego',
+
+    // model Categoria belongsToMany model Juego
+    this.belongsToMany(models.Juego, {
+      as: 'juegos',
+      through: models.Categoria_juego,
+      foreignKey: 'categoriaId',
+      otherKey: 'juegoId',
+    });
+
+    // model Categoria hasMany model Respuesta
+    this.hasMany(models.Respuesta, {
+      as: 'respuestas',
+      foreignKey: 'categoriaId',
     });
   }
 

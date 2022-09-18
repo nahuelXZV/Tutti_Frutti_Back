@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { JUEGO_TABLE } = require('./juegoModel');
 
 const PARTIDA_TABLE = 'partida';
 
@@ -18,6 +19,17 @@ const PartidaSchema = {
     type: DataTypes.INTEGER,
     field: 'nro_ronda',
   },
+  juegoId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field: 'juego_id',
+    references: {
+      model: JUEGO_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -28,7 +40,19 @@ const PartidaSchema = {
 
 class Partida extends Model {
   static associate(models) {
-    // associations can be defined here
+    // Partida belongs to Juego
+    this.belongsTo(models.Juego, {
+      as: 'juego',
+      foreignKey: 'juegoId',
+    });
+
+    // Partida has many Respuestas
+    this.belongsToMany(models.User, {
+      as: 'respuestas',
+      through: models.Respuesta,
+      foreignKey: 'partidaId',
+      otherKey: 'userId',
+    });
   }
 
   static config(sequelize) {

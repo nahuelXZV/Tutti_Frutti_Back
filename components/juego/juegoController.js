@@ -27,7 +27,10 @@ class JuegoController {
   }
 
   async find(id) {
-    const juegoFound = await models.Juego.findByPk(id);
+    const juegoFound = await models.Juego.findByPk(id, {
+      include: 'categorias',
+    });
+
     if (!juegoFound) {
       throw boom.notFound('Juego not found');
     }
@@ -35,7 +38,10 @@ class JuegoController {
   }
 
   async getAll() {
-    const juegos = await models.Juego.findAll();
+    // buscar todos los juegos junto con sus categorias
+    const juegos = await models.Juego.findAll({
+      include: 'categorias',
+    });
     return juegos;
   }
 }

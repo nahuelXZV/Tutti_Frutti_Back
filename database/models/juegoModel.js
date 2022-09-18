@@ -5,7 +5,7 @@ const JUEGO_TABLE = 'juego';
 const JuegoSchema = {
   id: {
     allowNull: false, // not null
-    autoIncrement: true, 
+    autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
@@ -35,10 +35,26 @@ const JuegoSchema = {
 
 class Juego extends Model {
   static associate(models) {
-    // associations can be defined here
-    models.Juego.belongsToMany(models.Categoria, {
-      through: models.Categoria_Juego,
-      as: 'categoria',
+    // model Juego belongsToMany model Categoria_juego
+    this.belongsToMany(models.Categoria, {
+      as: 'categorias',
+      through: models.Categoria_juego,
+      foreignKey: 'juegoId',
+      otherKey: 'categoriaId',
+    });
+
+    // model Juego belongsToMany model Partida
+    this.belongsToMany(models.User, {
+      as: 'participantes',
+      through: models.Participa,
+      foreignKey: 'juegoId',
+      otherKey: 'userId',
+    });
+
+    // model Juego hasMany model Partida
+    this.hasMany(models.Partida, {
+      as: 'partidas',
+      foreignKey: 'juegoId',
     });
   }
 

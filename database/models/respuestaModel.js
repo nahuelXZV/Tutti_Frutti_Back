@@ -1,4 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { USER_TABLE } = require('./userModel');
+const { PARTIDA_TABLE } = require('./partidaModel');
+const { CATEGORIA_TABLE } = require('./categoriaModel');
 
 const RESPUESTA_TABLE = 'respuesta';
 
@@ -22,6 +25,39 @@ const RespuestaSchema = {
     allowNull: false,
     type: DataTypes.INTEGER,
   },
+  userId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field: 'user_id',
+    references: {
+      model: USER_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
+  partidaId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field: 'partida_id',
+    references: {
+      model: PARTIDA_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
+  categoriaId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field: 'categoria_id',
+    references: {
+      model: CATEGORIA_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -33,6 +69,10 @@ const RespuestaSchema = {
 class Respuesta extends Model {
   static associate(models) {
     // associations can be defined here
+    this.belongsTo(models.Categoria, {
+      foreignKey: 'categoriaId',
+      as: 'categoria',
+    });
   }
 
   static config(sequelize) {

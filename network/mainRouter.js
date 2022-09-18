@@ -1,6 +1,9 @@
 const usersRouter = require('../components/users/userRoute');
 const authRouter = require('../components/auth/authRoute');
 const juegoRouter = require('../components/juego/juegoRoute');
+const categoriaRouter = require('../components/categoria/categoriaRoute');
+const categoria_juegoRouter = require('../components/categoria_juego/categoria_juegoRouter');
+
 const express = require('express');
 
 function mainRouter(app) {
@@ -10,6 +13,8 @@ function mainRouter(app) {
   router.use('/users', usersRouter); //use the usersRouter
   router.use('/auth', authRouter); //use the authRouter
   router.use('/juego', juegoRouter); //use the juegoRouter
+  router.use('/categoria', categoriaRouter); //use the categoriaRouter
+  router.use('/categoria_juego', categoria_juegoRouter); //use the juego_categoriaRouter
 }
 
 module.exports = mainRouter;
