@@ -14,6 +14,11 @@ const cors = require('cors');
 const app = express();
 const port = config.PORT;
 
+// Socket.io
+const server = require('http').Server(app); // Create http server
+const socket = require('./libs/socket'); // Load socket
+socket.connect(server); // Connect socket
+
 // Rutas
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(cors(corsOptions)); // Enable CORS

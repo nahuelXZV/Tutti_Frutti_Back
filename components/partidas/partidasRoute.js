@@ -1,13 +1,17 @@
-const { addUserSchema,  editUserSchema,  getUserSchema} = require('./userSchema');
+const {
+  addPartidaSchema,
+  editPartidaSchema,
+  getPartidaSchema,
+} = require('./partidasSchema');
 const { checkRoles } = require('../../middleware/roleHandler');
 const validatorHandler = require('../../middleware/validatorHandler');
 const response = require('../../network/response');
-const UserController = require('./userController');
+const partidaController = require('./partidasController');
 const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-const controller = new UserController();
+const controller = new partidaController();
 
 router.get(
   '/',
@@ -25,7 +29,7 @@ router.get(
 router.get(
   '/:id',
   // passport.authenticate('jwt', { session: false }), // Middleware de autenticación
-  validatorHandler(getUserSchema, 'params'), // Middleware de validación
+  validatorHandler(getPartidaSchema, 'params'), // Middleware de validación
   async (req, res, next) => {
     const { id } = req.params; //used for getting the parameter
     await controller
@@ -41,7 +45,7 @@ router.get(
 
 router.post(
   '/',
-  validatorHandler(addUserSchema, 'body'),
+  validatorHandler(addPartidaSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body; //used for getting the body
@@ -56,8 +60,8 @@ router.post(
 router.put(
   '/:id',
   // passport.authenticate('jwt', { session: false }),
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(editUserSchema, 'body'),
+  validatorHandler(getPartidaSchema, 'params'),
+  validatorHandler(editPartidaSchema, 'body'),
   async (req, res, next) => {
     const { id } = req.params;
     const body = req.body; //used for getting the body
@@ -75,8 +79,8 @@ router.put(
 router.delete(
   '/:id',
   // passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
-  validatorHandler(getUserSchema, 'params'),
+  // checkRoles('admin'),
+  validatorHandler(getPartidaSchema, 'params'),
   async (req, res, next) => {
     const { id } = req.params;
     await controller

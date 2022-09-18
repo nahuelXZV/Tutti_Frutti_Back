@@ -1,13 +1,16 @@
-const { addUserSchema,  editUserSchema,  getUserSchema} = require('./userSchema');
+const {
+  addCategoria_juegoSchema,
+  getCategoria_juegoSchema,
+} = require('./categoria_juegoSchema');
 const { checkRoles } = require('../../middleware/roleHandler');
 const validatorHandler = require('../../middleware/validatorHandler');
+const categoria_juegoController = require('./categoria_juegoController');
 const response = require('../../network/response');
-const UserController = require('./userController');
 const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-const controller = new UserController();
+const controller = new categoria_juegoController();
 
 router.get(
   '/',
@@ -25,7 +28,7 @@ router.get(
 router.get(
   '/:id',
   // passport.authenticate('jwt', { session: false }), // Middleware de autenticación
-  validatorHandler(getUserSchema, 'params'), // Middleware de validación
+  validatorHandler(getCategoria_juegoSchema, 'params'), // Middleware de validación
   async (req, res, next) => {
     const { id } = req.params; //used for getting the parameter
     await controller
@@ -41,7 +44,7 @@ router.get(
 
 router.post(
   '/',
-  validatorHandler(addUserSchema, 'body'),
+  validatorHandler(addCategoria_juegoSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body; //used for getting the body
@@ -53,30 +56,11 @@ router.post(
   }
 );
 
-router.put(
-  '/:id',
-  // passport.authenticate('jwt', { session: false }),
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(editUserSchema, 'body'),
-  async (req, res, next) => {
-    const { id } = req.params;
-    const body = req.body; //used for getting the body
-    await controller
-      .edit(body, id)
-      .then((data) => {
-        response.success(req, res, data, 201);
-      })
-      .catch((err) => {
-        next(err);
-      });
-  }
-);
-
 router.delete(
   '/:id',
   // passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
-  validatorHandler(getUserSchema, 'params'),
+  // checkRoles('admin'),
+  validatorHandler(getCategoria_juegoSchema, 'params'),
   async (req, res, next) => {
     const { id } = req.params;
     await controller
