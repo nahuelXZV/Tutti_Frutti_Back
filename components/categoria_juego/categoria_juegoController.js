@@ -1,6 +1,5 @@
 const { models } = require('../../libs/sequelize');
 const boom = require('@hapi/boom');
-const { comparePassword, hashPassword } = require('../../libs/utils/bcrypt');
 
 class Categoria_juegoController {
   constructor() {}

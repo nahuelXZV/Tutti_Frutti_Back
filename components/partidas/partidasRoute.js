@@ -1,13 +1,17 @@
-const { addParticipaSchema, getParticipaSchema } = require('./participaSchema');
+const {
+  addPartidaSchema,
+  editPartidaSchema,
+  getPartidaSchema,
+} = require('./partidasSchema');
 const { checkRoles } = require('../../middleware/roleHandler');
 const validatorHandler = require('../../middleware/validatorHandler');
-const participaController = require('./participaController');
 const response = require('../../network/response');
+const partidaController = require('./partidasController');
 const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-const controller = new participaController();
+const controller = new partidaController();
 
 router.get(
   '/',
@@ -25,7 +29,7 @@ router.get(
 router.get(
   '/:id',
   // passport.authenticate('jwt', { session: false }), // Middleware de autenticación
-  validatorHandler(getParticipaSchema, 'params'), // Middleware de validación
+  validatorHandler(getPartidaSchema, 'params'), // Middleware de validación
   async (req, res, next) => {
     const { id } = req.params; //used for getting the parameter
     await controller
@@ -41,7 +45,7 @@ router.get(
 
 router.post(
   '/',
-  validatorHandler(addParticipaSchema, 'body'),
+  validatorHandler(addPartidaSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body; //used for getting the body
@@ -53,11 +57,30 @@ router.post(
   }
 );
 
+router.put(
+  '/:id',
+  // passport.authenticate('jwt', { session: false }),
+  validatorHandler(getPartidaSchema, 'params'),
+  validatorHandler(editPartidaSchema, 'body'),
+  async (req, res, next) => {
+    const { id } = req.params;
+    const body = req.body; //used for getting the body
+    await controller
+      .edit(body, id)
+      .then((data) => {
+        response.success(req, res, data, 201);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
 router.delete(
   '/:id',
   // passport.authenticate('jwt', { session: false }),
   // checkRoles('admin'),
-  validatorHandler(getParticipaSchema, 'params'),
+  validatorHandler(getPartidaSchema, 'params'),
   async (req, res, next) => {
     const { id } = req.params;
     await controller
